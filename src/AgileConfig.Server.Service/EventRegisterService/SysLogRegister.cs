@@ -25,7 +25,7 @@ internal class SysLogRegister : IEventRegister
             {
                 LogTime = DateTime.Now,
                 LogType = SysLogType.Normal,
-                LogText = $"{userName} 登录成功"
+                LogText = $"{userName} logged in successfully"
             };
             Task.Run(async () =>
             {
@@ -39,7 +39,7 @@ internal class SysLogRegister : IEventRegister
             {
                 LogTime = DateTime.Now,
                 LogType = SysLogType.Normal,
-                LogText = $"超级管理员密码初始化成功"
+                LogText = $"Super administrator password initialization successful"
             };
             Task.Run(async () =>
             {
@@ -57,7 +57,7 @@ internal class SysLogRegister : IEventRegister
             {
                 LogTime = DateTime.Now,
                 LogType = SysLogType.Normal,
-                LogText = $"用户 {userName} 重置 {user.UserName} 的密码为默认密码 "
+                LogText = $"User {userName} resets the password of {user.UserName} to the default password"
             };
             Task.Run(async () =>
             {
@@ -85,7 +85,7 @@ internal class SysLogRegister : IEventRegister
             {
                 LogTime = DateTime.Now,
                 LogType = SysLogType.Normal,
-                LogText = $"修改用户 {userName} 的密码成功"
+                LogText = $"Password modification of user {userName} successful"
             };
             Task.Run(async () =>
             {
@@ -104,7 +104,7 @@ internal class SysLogRegister : IEventRegister
                 {
                     LogTime = DateTime.Now,
                     LogType = SysLogType.Normal,
-                    LogText = $"用户：{userName} 新增应用【AppId：{app.Id}】【AppName：{app.Name}】"
+                    LogText = $"User: {userName} New application [AppId: {app.Id}] [AppName: {app.Name}]"
                 };
                 Task.Run(async () =>
                 {
@@ -125,7 +125,7 @@ internal class SysLogRegister : IEventRegister
                 {
                     LogTime = DateTime.Now,
                     LogType = SysLogType.Normal,
-                    LogText = $"用户：{userName} 编辑应用【AppId：{app.Id}】【AppName：{app.Name}】"
+                    LogText = $"User: {userName} Edit application [AppId: {app.Id}] [AppName: {app.Name}]"
                 };
                 Task.Run(async () =>
                 {
@@ -145,7 +145,7 @@ internal class SysLogRegister : IEventRegister
                 {
                     LogTime = DateTime.Now,
                     LogType = SysLogType.Normal,
-                    LogText = $"用户：{userName} {(app.Enabled ? "启用" : "禁用")}应用【AppId:{app.Id}】"
+                    LogText = $"User: {userName} {(app.Enabled ? "Enabled" : "Disabled")} Application [AppId:{app.Id}]"
                 };
                 Task.Run(async () =>
                 {
@@ -165,7 +165,7 @@ internal class SysLogRegister : IEventRegister
                 {
                     LogTime = DateTime.Now,
                     LogType = SysLogType.Warn,
-                    LogText = $"用户：{userName} 删除应用【AppId:{app.Id}】"
+                    LogText = $"User: {userName} Delete application [AppId: {app.Id}]"
                 };
                 Task.Run(async () =>
                 {
@@ -189,7 +189,7 @@ internal class SysLogRegister : IEventRegister
                     LogType = SysLogType.Normal,
                     AppId = config.AppId,
                     LogText =
-                        $"用户：{userName} 新增配置【Group：{config.Group}】【Key：{config.Key}】【AppId：{config.AppId}】【Env：{config.Env}】【待发布】"
+                        $"User: {userName} New configuration [Group: {config.Group}] [Key: {config.Key}] [AppId: {config.AppId}] [Env: {config.Env}] [To be released]"
                 };
                 Task.Run(async () =>
                 {
@@ -211,7 +211,7 @@ internal class SysLogRegister : IEventRegister
                     LogType = SysLogType.Normal,
                     AppId = config.AppId,
                     LogText =
-                        $"用户：{userName} 编辑配置【Group：{config.Group}】【Key：{config.Key}】【AppId：{config.AppId}】【Env：{config.Env}】【待发布】"
+                        $"User: {userName} Edit configuration [Group: {config.Group}] [Key: {config.Key}] [AppId: {config.AppId}] [Env: {config.Env}] [To be released]"
                 };
                 Task.Run(async () =>
                 {
@@ -234,7 +234,7 @@ internal class SysLogRegister : IEventRegister
                     LogType = SysLogType.Warn,
                     AppId = config.AppId,
                     LogText =
-                        $"用户：{userName} 删除配置【Group：{config.Group}】【Key：{config.Key}】【AppId：{config.AppId}】【Env：{config.Env}】【待发布】"
+                        $"User: {userName} delete configuration [Group: {config.Group}] [Key: {config.Key}] [AppId: {config.AppId}] [Env: {config.Env}] [To be released]"
                 };
                 Task.Run(async () =>
                 {
@@ -255,7 +255,7 @@ internal class SysLogRegister : IEventRegister
                     LogTime = DateTime.Now,
                     LogType = SysLogType.Warn,
                     AppId = appId,
-                    LogText = $"用户：{userName} 批量删除配置【Env：{env}】"
+                    LogText = $"User: {userName} Batch delete configuration [Env: {env}]"
                 };
                 Task.Run(async () =>
                 {
@@ -276,7 +276,7 @@ internal class SysLogRegister : IEventRegister
                 LogType = SysLogType.Normal,
                 AppId = node.AppId,
                 LogText =
-                    $"用户：{userName} 发布配置【AppId：{node.AppId}】【Env：{env}】【版本：{node.PublishTime.Value:yyyyMMddHHmmss}】"
+                    $"User: {userName} Publish configuration [AppId: {node.AppId}] [Env: {env}] [Version: {node.PublishTime.Value:yyyyMMddHHmmss}]"
             };
             Task.Run(async () =>
             {
@@ -298,7 +298,7 @@ internal class SysLogRegister : IEventRegister
                     LogType = SysLogType.Warn,
                     AppId = timelineNode.AppId,
                     LogText =
-                        $"{userName} 回滚应用【{timelineNode.AppId}】【Env：{env}】至发布版本【{timelineNode.PublishTime.Value:yyyyMMddHHmmss}】"
+                        $"{userName} rolls back the application [{timelineNode.AppId}] [Env: {env}] to the release version [{timelineNode.PublishTime.Value:yyyyMMddHHmmss}]"
                 };
                 Task.Run(async () =>
                 {
@@ -320,7 +320,7 @@ internal class SysLogRegister : IEventRegister
                     LogType = SysLogType.Normal,
                     AppId = config.AppId,
                     LogText =
-                        $"{userName} 撤销编辑状态的配置【Group：{config.Group}】【Key：{config.Key}】【AppId：{config.AppId}】【Env：{config.Env}】"
+                        $"{userName} Undoes the configuration of the editing state [Group: {config.Group}] [Key: {config.Key}] [AppId: {config.AppId}] [Env: {config.Env}]"
                 };
                 Task.Run(async () =>
                 {
@@ -342,7 +342,7 @@ internal class SysLogRegister : IEventRegister
                     LogTime = DateTime.Now,
                     LogType = SysLogType.Normal,
                     AppId = appId,
-                    LogText = $"{userName} 批量撤销编辑状态的配置【Env：{env}】"
+                    LogText = $"{userName} batch undo configuration of editing status [Env: {env}]"
                 };
                 Task.Run(async () =>
                 {
@@ -360,7 +360,7 @@ internal class SysLogRegister : IEventRegister
             {
                 LogTime = DateTime.Now,
                 LogType = SysLogType.Normal,
-                LogText = $"用户：{userName} 添加节点：{node.Id}"
+                LogText = $"User: {userName} Add node: {node.Id}"
             };
             Task.Run(async () =>
             {
@@ -378,7 +378,7 @@ internal class SysLogRegister : IEventRegister
             {
                 LogTime = DateTime.Now,
                 LogType = SysLogType.Warn,
-                LogText = $"用户：{userName} 删除节点：{node.Id}"
+                LogText = $"User: {userName} Delete node: {node.Id}"
             };
             Task.Run(async () =>
             {
@@ -396,7 +396,7 @@ internal class SysLogRegister : IEventRegister
             {
                 LogTime = DateTime.Now,
                 LogType = SysLogType.Normal,
-                LogText = $"用户：{userName} 添加用户：{user.UserName} 成功"
+                LogText = $"User: {userName} Add user: {user.UserName} Success"
             };
             Task.Run(async () =>
             {
@@ -414,7 +414,7 @@ internal class SysLogRegister : IEventRegister
             {
                 LogTime = DateTime.Now,
                 LogType = SysLogType.Normal,
-                LogText = $"用户：{userName} 编辑用户：{user.UserName} 成功"
+                LogText = $"User: {userName} Edit user: {user.UserName} Success"
             };
             Task.Run(async () =>
             {
@@ -432,7 +432,7 @@ internal class SysLogRegister : IEventRegister
             {
                 LogTime = DateTime.Now,
                 LogType = SysLogType.Warn,
-                LogText = $"用户：{userName} 删除用户：{user.UserName} 成功"
+                LogText = $"User: {userName} Delete user: {user.UserName} Successfully"
             };
             Task.Run(async () =>
             {
@@ -450,7 +450,7 @@ internal class SysLogRegister : IEventRegister
             {
                 LogTime = DateTime.Now,
                 LogType = SysLogType.Warn,
-                LogText = $"用户：{userName} 断开客户端 {clientId} 成功"
+                LogText = $"User: {userName} disconnected client {clientId} successfully"
             };
             Task.Run(async () =>
             {
@@ -468,7 +468,7 @@ internal class SysLogRegister : IEventRegister
             {
                 LogTime = DateTime.Now,
                 LogType = SysLogType.Normal,
-                LogText = $"服务：【{serviceId}】【{serviceName}】 注册成功"
+                LogText = $"Service: [{serviceId}] [{serviceName}] Registration successful"
             };
             Task.Run(async () =>
             {
@@ -484,7 +484,7 @@ internal class SysLogRegister : IEventRegister
             {
                 LogTime = DateTime.Now,
                 LogType = SysLogType.Normal,
-                LogText = $"服务：【{serviceId}】【{serviceName}】 卸载成功"
+                LogText = $"Service: [{serviceId}] [{serviceName}] Uninstalled successfully"
             };
             Task.Run(async () =>
             {
