@@ -5,7 +5,34 @@ on:
       - mespila
 
 jobs:
-  build:
+  build-reactapp:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: AgileConfig.Server.UI/react-ui-antd
+    strategy:
+      matrix:
+        node-version: [ 16.x ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: mespila
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - run: npm install
+      - run: npm run build
+      - uses: actions/upload-artifact@v2
+        with:
+          name: agileconfig-ui
+          path: AgileConfig.Server.UI/react-ui-antd/dist/
+  
+  
+  build-dotnet:
     runs-on: ubuntu-latest
     env:
       major: "1"
@@ -42,6 +69,13 @@ jobs:
       - name: install dotnet deb on project
         run: dotnet deb install
         working-directory: 'src/AgileConfig.Server.Apisite'
+
+
+      - uses: actions/download-artifact@v2
+        name: Download artifact
+        with:
+          name: agileconfig-ui
+          path: src/AgileConfig.Server.Apisite/wwwroot/ui
 
       - name: restore dependencies arm64
         run: dotnet restore AgileConfig.Server.Apisite.csproj /p:DebPackageArchitecture=arm64 /p:RuntimeIdentifier=linux-arm64 /p:Configuration=Release /p:BuildDeb=true
