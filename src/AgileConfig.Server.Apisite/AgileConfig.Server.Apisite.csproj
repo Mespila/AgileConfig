@@ -48,7 +48,7 @@
         <PackageReference Include="LettuceEncrypt" Version="1.3.2"/>
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.4"/>
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.4"/>
-        <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="8.0.0"/>
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0"/>
         <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.20.1"/>
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2"/>
@@ -86,9 +86,8 @@
     </ItemGroup>
 
 
-
     <ItemGroup Condition="$(BuildDeb)=='true'">
-        <Content Include="agile-congif.service">
+        <Content Include="agile-config.service">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
             <RemoveOnUninstall>true</RemoveOnUninstall>
             <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
