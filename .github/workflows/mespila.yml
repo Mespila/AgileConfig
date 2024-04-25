@@ -34,6 +34,7 @@ jobs:
   
   build-dotnet:
     runs-on: ubuntu-latest
+    needs: build-reactapp
     env:
       major: "1"
       minor: "0"
