@@ -2,6 +2,8 @@
 using AgileConfig.Server.Common;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.AspNetCore.Server.Kestrel.Https;
 using Microsoft.Extensions.Configuration;
 using NLog.Web;
 
@@ -40,7 +42,11 @@ namespace AgileConfig.Server.Apisite
                 .ConfigureKestrel(x =>
                 {
                     x.ListenAnyIP(80);
-                    x.ListenAnyIP(443, portOptions => { portOptions.UseHttps(h => { h.UseLettuceEncrypt(x.ApplicationServices); }); });
+                    x.ListenAnyIP(443, x =>
+                    {
+                        x.UseHttps(httpsOptions => { httpsOptions.UseLettuceEncrypt(x.ApplicationServices); });
+                        x.Protocols = HttpProtocols.Http1AndHttp2AndHttp3;
+                    });
                 })
                 .UseStartup<Startup>();
         }

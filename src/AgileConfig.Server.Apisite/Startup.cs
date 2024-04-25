@@ -84,6 +84,7 @@ namespace AgileConfig.Server.Apisite
             services.AddAntiforgery(o => o.SuppressXFrameOptionsHeader = true);
 
             services.AddOIDC();
+            services.AddLettuceEncrypt();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -120,6 +121,7 @@ namespace AgileConfig.Server.Apisite
             {
                 KeepAliveInterval = TimeSpan.FromSeconds(60),
             });
+
             app.UseMiddleware<WebsocketHandlerMiddleware>();
             app.UseStaticFiles();
             app.UseRouting();
