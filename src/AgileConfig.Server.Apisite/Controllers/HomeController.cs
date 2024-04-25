@@ -76,7 +76,7 @@ namespace AgileConfig.Server.Apisite.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Sys()
         {
-            string appVer = System.Reflection.Assembly.GetAssembly(typeof(AgileConfig.Server.Apisite.Program)).GetName().Version.ToString();
+            string appVer = System.Reflection.Assembly.GetAssembly(typeof(AgileConfig.Server.Apisite.InitService)).GetName().Version.ToString();
             string userName = this.GetCurrentUserName();
             if (string.IsNullOrEmpty(userName))
             {
