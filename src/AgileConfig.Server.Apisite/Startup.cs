@@ -50,10 +50,7 @@ namespace AgileConfig.Server.Apisite
             }
         }
 
-        public IConfiguration Configuration
-        {
-            get;
-        }
+        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -62,7 +59,7 @@ namespace AgileConfig.Server.Apisite
             services.AddRestClient();
 
             services.AddMemoryCache();
-
+            services.AddSystemd();
             services.AddCors();
             services.AddMvc().AddRazorRuntimeCompilation();
 
@@ -106,13 +103,13 @@ namespace AgileConfig.Server.Apisite
             {
                 app.UseMiddleware<ExceptionHandlerMiddleware>();
             }
+
             if (Appsettings.IsPreviewMode)
             {
                 AddSwaggerMiddleWare(app);
             }
 
             app.UseMiddleware<ReactUIMiddleware>();
-
             app.UseCors(op =>
             {
                 op.AllowAnyOrigin();
@@ -128,10 +125,7 @@ namespace AgileConfig.Server.Apisite
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapDefaultControllerRoute();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapDefaultControllerRoute(); });
         }
 
         private void AddSwaggerService(IServiceCollection services)
@@ -148,11 +142,7 @@ namespace AgileConfig.Server.Apisite
         private void AddSwaggerMiddleWare(IApplicationBuilder app)
         {
             app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("v1/swagger.json", "My API V1");
-            });
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("v1/swagger.json", "My API V1"); });
         }
-
     }
 }

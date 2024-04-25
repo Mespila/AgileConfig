@@ -1,0 +1,21 @@
+[Unit]
+Description=Agile Config Server
+
+
+[Service]
+Type=notify
+PrivateTmp=false
+ExecStart=/usr/bin/dotnet /usr/share/agile-config/AgileConfig.Server.Apisite.dll
+Restart=always
+RestartSec=5
+KillSignal=SIGINT
+SyslogIdentifier=agile-config
+User=root
+Group=root
+WorkingDirectory=/usr/share/agile-config
+Environment=PRODUCTION=true
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
+
+[Install]
+WantedBy=multi-user.target

@@ -1,69 +1,110 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-    <AssemblyVersion>1.9.2</AssemblyVersion>
-    <Version>1.9.2</Version>
-    <PackageVersion>1.9.2</PackageVersion>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <FileVersion>1.9.2</FileVersion>
-    <Authors>kklldog</Authors>
-    <Company>kklldog</Company>
-  </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\AgileConfig.Server.Apisite.xml</DocumentationFile>
-    <NoWarn>1701;1702;1591;1573</NoWarn>
-  </PropertyGroup>
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <LangVersion>latest</LangVersion>
+        <EnablePreviewFeatures>True</EnablePreviewFeatures>
+        <Title>Agile Config Server</Title>
+        <PackageDescription>Agile Config Server</PackageDescription>
+        <PackagePrefix>agile-config</PackagePrefix>
+        <ServiceName>agile-config</ServiceName>
+        <Authors>Ersin Tarhan</Authors>
+        <Company>Mespila</Company>
+        <EnablePreviewFeatures>True</EnablePreviewFeatures>
+        <BuildDeb>false</BuildDeb>
+        <Version>1.0.0</Version>
+        <InstallService>true</InstallService>
+        <DebPackageArchitecture>amd64</DebPackageArchitecture>
+        <PackageName>$(PackagePrefix)_$(Version)_$(DebPackageArchitecture)</PackageName>
+        <DebFileToUpload>$(PackagePrefix)_$(Version)_$(DebPackageArchitecture).deb</DebFileToUpload>
+        <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+        <UserName>root</UserName>
+        <ServerGarbageCollection>true</ServerGarbageCollection>
+        <ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
+        <SkipDebDependencies>true</SkipDebDependencies>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>1591</NoWarn>
+    </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <DocumentationFile>bin\Release\AgileConfig.Server.Apisite.xml</DocumentationFile>
-  </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="agile_config.db" />
-  </ItemGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <DocumentationFile>bin\Debug\AgileConfig.Server.Apisite.xml</DocumentationFile>
+        <NoWarn>1701;1702;1591;1573</NoWarn>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.4" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.20.1" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.0" />
-    <PackageReference Include="NLog" Version="5.2.8" />
-    <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.8" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.5.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0" />
-  </ItemGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <DocumentationFile>bin\Release\AgileConfig.Server.Apisite.xml</DocumentationFile>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\AgileConfig.Server.Data.Abstraction\AgileConfig.Server.Data.Abstraction.csproj" />
-    <ProjectReference Include="..\AgileConfig.Server.Data.Repository.Freesql\AgileConfig.Server.Data.Repository.Freesql.csproj" />
-    <ProjectReference Include="..\AgileConfig.Server.Data.Repository.Mongodb\AgileConfig.Server.Data.Repository.Mongodb.csproj" />
-    <ProjectReference Include="..\Agile.Config.Protocol\Agile.Config.Protocol.csproj" />
-    <ProjectReference Include="..\AgileConfig.Server.Data.Entity\AgileConfig.Server.Data.Entity.csproj" />
-    <ProjectReference Include="..\AgileConfig.Server.Data.Freesql\AgileConfig.Server.Data.Freesql.csproj" />
-    <ProjectReference Include="..\AgileConfig.Server.Data.Repository.Selector\AgileConfig.Server.Data.Repository.Selector.csproj" />
-    <ProjectReference Include="..\AgileConfig.Server.OIDC\AgileConfig.Server.OIDC.csproj" />
-    <ProjectReference Include="..\AgileConfig.Server.Service\AgileConfig.Server.Service.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <None Remove="agile_config.db"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <Content Update="appsettings.Development.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="nlog.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="LettuceEncrypt" Version="1.3.2"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.4"/>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.4"/>
+        <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0"/>
+        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.20.1"/>
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2"/>
+        <PackageReference Include="NLog" Version="5.2.8"/>
+        <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.8"/>
+        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.5.0"/>
+        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="logs\" />
-    <Folder Include="Views\Shared" />
-    <Folder Include="wwwroot\ui\" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\AgileConfig.Server.Data.Abstraction\AgileConfig.Server.Data.Abstraction.csproj"/>
+        <ProjectReference Include="..\AgileConfig.Server.Data.Repository.Freesql\AgileConfig.Server.Data.Repository.Freesql.csproj"/>
+        <ProjectReference Include="..\AgileConfig.Server.Data.Repository.Mongodb\AgileConfig.Server.Data.Repository.Mongodb.csproj"/>
+        <ProjectReference Include="..\Agile.Config.Protocol\Agile.Config.Protocol.csproj"/>
+        <ProjectReference Include="..\AgileConfig.Server.Data.Entity\AgileConfig.Server.Data.Entity.csproj"/>
+        <ProjectReference Include="..\AgileConfig.Server.Data.Freesql\AgileConfig.Server.Data.Freesql.csproj"/>
+        <ProjectReference Include="..\AgileConfig.Server.Data.Repository.Selector\AgileConfig.Server.Data.Repository.Selector.csproj"/>
+        <ProjectReference Include="..\AgileConfig.Server.OIDC\AgileConfig.Server.OIDC.csproj"/>
+        <ProjectReference Include="..\AgileConfig.Server.Service\AgileConfig.Server.Service.csproj"/>
+    </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+    <ItemGroup>
+        <Content Update="appsettings.Development.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Update="nlog.config">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="logs\"/>
+        <Folder Include="Views\Shared"/>
+        <Folder Include="wwwroot\ui\"/>
+    </ItemGroup>
+
+
+
+    <ItemGroup Condition="$(BuildDeb)=='true'">
+        <Content Include="agile-congif.service">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <RemoveOnUninstall>true</RemoveOnUninstall>
+            <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+            <LinuxPath>/etc/systemd/system/agile-config.service</LinuxPath>
+        </Content>
+    </ItemGroup>
+
+
+    <Target Name="UploadDeb" AfterTargets="CreateDeb">
+        <Message Text="Package Name: $(PackageName)" Importance="high"/>
+        <Message Text="Version Name: $(Version)" Importance="high"/>
+        <Message Text="Target Path: $(TargetDir)" Importance="high"/>
+        <Message Text="curl -u 'debian:qwe789asd' -H 'Content-Type: multipart/form-data' --data-binary '@$(OutputPath)$(DebFileToUpload)' https://nexus.stsfd.xyz/repository/apt/" Importance="high"/>
+        <Exec Command="curl -u 'debian:qwe789asd' -H 'Content-Type: multipart/form-data' --data-binary '@$(OutputPath)$(DebFileToUpload)' https://nexus.stsfd.xyz/repository/apt/"/>
+    </Target>
+
 
 </Project>

@@ -16,13 +16,13 @@ namespace AgileConfig.Server.Apisite
             var basePath = AppDomain.CurrentDomain.BaseDirectory;
             Console.WriteLine("current dir path: " + basePath);
             var builder = new ConfigurationBuilder()
-            .SetBasePath(basePath);
+                .SetBasePath(basePath);
 #if DEBUG
-            Global.Config = 
-                 builder
-                .AddJsonFile("appsettings.Development.json")
-                .AddEnvironmentVariables()
-                .Build();
+            Global.Config =
+                builder
+                    .AddJsonFile("appsettings.Development.json")
+                    .AddEnvironmentVariables()
+                    .Build();
 #else
             Global.Config = builder.AddJsonFile("appsettings.json").AddEnvironmentVariables().Build();
 #endif
@@ -32,13 +32,17 @@ namespace AgileConfig.Server.Apisite
             host.Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) 
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {
             return WebHost.CreateDefaultBuilder(args)
-                  .UseConfiguration(Global.Config)
-                  .UseNLog()
-                  .UseStartup<Startup>();
+                .UseConfiguration(Global.Config)
+                .UseNLog()
+                .ConfigureKestrel(x =>
+                {
+                    x.ListenAnyIP(80);
+                    x.ListenAnyIP(443, portOptions => { portOptions.UseHttps(h => { h.UseLettuceEncrypt(x.ApplicationServices); }); });
+                })
+                .UseStartup<Startup>();
         }
-          
     }
 }
