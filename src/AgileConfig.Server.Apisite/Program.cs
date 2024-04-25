@@ -20,11 +20,8 @@ builder.Configuration.AddJsonFile("appsettings.json", false, true);
 builder.Configuration.AddEnvironmentVariables();
 builder.Host.UseSystemd();
 builder.Logging.ClearProviders();
-builder.Logging.AddSystemdConsole(options =>
-{
-    options.IncludeScopes = true;
-    options.UseUtcTimestamp = true;
-});
+builder.Logging.AddSystemdConsole();
+
 
 builder.WebHost.ConfigureKestrel(x =>
 {
