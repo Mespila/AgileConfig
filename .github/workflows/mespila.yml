@@ -1,0 +1,62 @@
+name: Mespila
+on:
+  push:
+    branches:
+      - mespila
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      major: "1"
+      minor: "0"
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: mespila
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            6.x
+            8.x
+
+      - name: show run number
+        run: echo run number -> ${{ github.run_number }}
+
+      - name: set apt version
+        run: echo apt_version=`echo $major.$minor.$((${{ github.run_number }}))` >> $GITHUB_ENV
+
+      - name: show apt version
+        run: echo $apt_version
+
+      - name: dotnet-deb install
+        run: dotnet tool install --global dotnet-deb
+
+      - name: export dotnet tools settings
+        run: 'export PATH="$PATH:~/.dotnet/tools"'
+
+      - name: install dotnet deb on project
+        run: dotnet deb install
+        working-directory: 'src/AgileConfig.Server.Apisite'
+
+      - name: restore dependencies arm64
+        run: dotnet restore AgileConfig.Server.Apisite.csproj /p:DebPackageArchitecture=arm64 /p:RuntimeIdentifier=linux-arm64 /p:Configuration=Release /p:BuildDeb=true
+        working-directory: 'src/AgileConfig.Server.Apisite'
+
+      - name: build project arm64
+        run: dotnet msbuild AgileConfig.Server.Apisite.csproj /p:DebPackageArchitecture=arm64 /p:RuntimeIdentifier=linux-arm64 /p:Version=${{ env.apt_version }} /p:Configuration=Release /p:BuildDeb=true /t:CreateDeb
+        working-directory: 'src/AgileConfig.Server.Apisite'
+
+      - name: restore dependencies amd64
+        run: dotnet restore AgileConfig.Server.Apisite.csproj /p:DebPackageArchitecture=amd64 /p:RuntimeIdentifier=linux-amd64 /p:Configuration=Release /p:BuildDeb=true
+        working-directory: 'src/AgileConfig.Server.Apisite'
+
+      - name: build project arm64
+        run: dotnet msbuild AgileConfig.Server.Apisite.csproj /p:DebPackageArchitecture=amd64 /p:RuntimeIdentifier=linux-amd64 /p:Version=${{ env.apt_version }} /p:Configuration=Release /p:BuildDeb=true /t:CreateDeb
+        working-directory: 'src/AgileConfig.Server.Apisite'
+
+        
