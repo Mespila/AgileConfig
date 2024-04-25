@@ -41,11 +41,12 @@ namespace AgileConfig.Server.Apisite
                 .UseNLog()
                 .ConfigureKestrel(x =>
                 {
+                    var appServices = x.ApplicationServices;
                     x.ListenAnyIP(80);
                     x.ListenAnyIP(443, x =>
                     {
-                        x.UseHttps(httpsOptions => { httpsOptions.UseLettuceEncrypt(x.ApplicationServices); });
-                        x.Protocols = HttpProtocols.Http1AndHttp2AndHttp3;
+                        x.UseHttps(httpsOptions => { httpsOptions.UseLettuceEncrypt(appServices); });
+                        x.Protocols = HttpProtocols.Http1AndHttp2;
                     });
                 })
                 .UseStartup<Startup>();
