@@ -87,11 +87,11 @@ jobs:
         working-directory: 'src/AgileConfig.Server.Apisite'
 
       - name: restore dependencies amd64
-        run: dotnet restore AgileConfig.Server.Apisite.csproj /p:DebPackageArchitecture=amd64 /p:RuntimeIdentifier=linux-amd64 /p:Configuration=Release /p:BuildDeb=true
+        run: dotnet restore AgileConfig.Server.Apisite.csproj /p:DebPackageArchitecture=amd64 /p:RuntimeIdentifier=linux-x64 /p:Configuration=Release /p:BuildDeb=true
         working-directory: 'src/AgileConfig.Server.Apisite'
 
       - name: build project arm64
-        run: dotnet msbuild AgileConfig.Server.Apisite.csproj /p:DebPackageArchitecture=amd64 /p:RuntimeIdentifier=linux-amd64 /p:Version=${{ env.apt_version }} /p:Configuration=Release /p:BuildDeb=true /t:CreateDeb
+        run: dotnet msbuild AgileConfig.Server.Apisite.csproj /p:DebPackageArchitecture=amd64 /p:RuntimeIdentifier=linux-x64 /p:Version=${{ env.apt_version }} /p:Configuration=Release /p:BuildDeb=true /t:CreateDeb
         working-directory: 'src/AgileConfig.Server.Apisite'
 
         
