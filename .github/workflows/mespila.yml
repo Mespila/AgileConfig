@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: AgileConfig.Server.UI/react-ui-antd
+        working-directory: src/AgileConfig.Server.UI/react-ui-antd
     strategy:
       matrix:
         node-version: [ 16.x ]
@@ -29,7 +29,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: agileconfig-ui
-          path: AgileConfig.Server.UI/react-ui-antd/dist/
+          path: src/AgileConfig.Server.UI/react-ui-antd/dist/
   
   
   build-dotnet:
