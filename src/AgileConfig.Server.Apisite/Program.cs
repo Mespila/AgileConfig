@@ -13,8 +13,9 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.OpenApi.Models;
 using NLog.Extensions.Logging;
 
-var builder = WebApplication.CreateBuilder(args);
+var basePath = AppDomain.CurrentDomain.BaseDirectory;
 
+var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("appsettings.json", false, true);
 builder.Configuration.AddEnvironmentVariables();
@@ -67,7 +68,10 @@ builder.Services.AddLettuceEncrypt();
 
 var app = builder.Build();
 
-var basePath = app.Configuration.GetValue<string>("pathBase");
+Global.Config = app.Configuration;
+Global.LoggerFactory = app.Services.GetRequiredService<ILoggerFactory>();
+
+
 if (!string.IsNullOrWhiteSpace(basePath))
 {
     app.UsePathBase(basePath);
