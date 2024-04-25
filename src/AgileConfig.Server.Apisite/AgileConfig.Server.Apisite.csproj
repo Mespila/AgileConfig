@@ -52,8 +52,6 @@
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0"/>
         <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.20.1"/>
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2"/>
-        <PackageReference Include="NLog" Version="5.2.8"/>
-        <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.8"/>
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.5.0"/>
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0"/>
     </ItemGroup>
@@ -73,9 +71,6 @@
     <ItemGroup>
         <Content Update="appsettings.Development.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Update="nlog.config">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
 

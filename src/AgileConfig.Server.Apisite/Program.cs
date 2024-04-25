@@ -11,7 +11,6 @@ using AgileConfig.Server.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.OpenApi.Models;
-using NLog.Extensions.Logging;
 
 var basePath = AppDomain.CurrentDomain.BaseDirectory;
 
@@ -21,7 +20,12 @@ builder.Configuration.AddJsonFile("appsettings.json", false, true);
 builder.Configuration.AddEnvironmentVariables();
 builder.Host.UseSystemd();
 builder.Logging.ClearProviders();
-builder.Logging.AddNLog();
+builder.Logging.AddSystemdConsole(options =>
+{
+    options.IncludeScopes = true;
+    options.UseUtcTimestamp = true;
+});
+
 builder.WebHost.ConfigureKestrel(x =>
 {
     var appServices = x.ApplicationServices;
