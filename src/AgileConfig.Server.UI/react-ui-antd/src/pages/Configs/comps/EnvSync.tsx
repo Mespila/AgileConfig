@@ -11,7 +11,7 @@ export type EnvSyncFormProps = {
     onCancel: () => void;
     onSaveSuccess: ()=> void;
   };
-  
+
 const EnvSync : React.FC<EnvSyncFormProps> = (props)=>{
     const [checkedList, setCheckedList] = React.useState<CheckboxValueType[]>([]);
     const envList = getEnvList();
@@ -20,7 +20,7 @@ const EnvSync : React.FC<EnvSyncFormProps> = (props)=>{
     };
 
     return (
-        <Modal 
+        <Modal
           title="同步环境"
           visible={props.ModalVisible}
           onCancel={
@@ -31,22 +31,22 @@ const EnvSync : React.FC<EnvSyncFormProps> = (props)=>{
           onOk={
             async ()=> {
               if (!checkedList.length) {
-                message.error('请至少勾选一个环境');
+                message.error('Please check at least one environment');
                 return;
               }
-              const hide = message.loading('正在同步');
+              const hide = message.loading('Synchronizing');
               try {
                 const result = await envSync(props.appId, props.currentEnv, checkedList.map(item=>item.toString()));
                 const success = result.success;
                 if (success) {
                   props.onSaveSuccess();
-                  message.success('同步成功！');
+                  message.success('Synchronization successful！');
                 } else {
-                  message.error('同步失败');
+                  message.error('Sync failed');
                 }
               }
               catch (e) {
-                message.error('同步失败');
+                message.error('Sync failed');
               }
               finally {
                 hide();
@@ -54,7 +54,7 @@ const EnvSync : React.FC<EnvSyncFormProps> = (props)=>{
             }
           }
           >
-          将当前 {props.currentEnv} 环境的配置同步到：
+          Synchronize the configuration of the current {props.currentEnv} environment to：
           <div style={{marginTop:20}}>
             <CheckboxGroup options={envList.filter(x=> x !== props.currentEnv)} value={checkedList} onChange={onChange}  />
           </div>

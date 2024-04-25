@@ -98,7 +98,7 @@ const InitPassword: React.FC = (props) => {
               message: (
                 <FormattedMessage
                   id="pages.login.password.required"
-                  defaultMessage="请输入密码！"
+                  defaultMessage="Please enter password！"
                 />
               ),
             },
@@ -119,7 +119,7 @@ const InitPassword: React.FC = (props) => {
               message: (
                 <FormattedMessage
                   id="pages.login.password.required"
-                  defaultMessage="请再次输入密码！"
+                  defaultMessage="Please enter your password again!"
                 />
               ),
             },

@@ -9,20 +9,20 @@ import { QuestionCircleOutlined } from '@ant-design/icons';
 loader.config({ paths: { vs: 'monaco-editor/min/vs' } });
 
 const handleSave = async (json: string, appId: string, env: string, isPatch: boolean) => {
-  const hide = message.loading('正在保存...');
+  const hide = message.loading('Saving...');
   try {
     const result = await saveJson(appId, env, json, isPatch);
     hide();
     const success = result.success;
     if (success) {
-      message.success('保存成功！');
+      message.success('Saved successfully！');
     } else {
-      message.error('保存失败！');
+      message.error('Save failed！');
     }
     return success;
   } catch (error) {
     hide();
-    message.error('保存失败！');
+    message.error('Save failed！');
     return false;
   }
 };
@@ -59,22 +59,22 @@ const JsonEditor: React.FC<JsonEditorProps> = (props) => {
   return (
     <Modal
       maskClosable={false}
-      title="按 JSON 视图编辑"
-      okText="保存"
+      title="Edit by JSON view"
+      okText="Save"
       width={800}
       visible={props.ModalVisible}
       onCancel={props.onCancel}
       footer={
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div>
-            {jsonValidateSuccess ? <></> : <span style={{ color: 'red' }}>JSON 格式非法</span>}
+            {jsonValidateSuccess ? <></> : <span style={{ color: 'red' }}>JSON format is illegal</span>}
           </div>
           <div>
             <span style={{ marginRight: '12px' }}>
               <Checkbox onChange={onIsPatchChange} value={isPatch}>
-                补丁模式更新
+                Patch mode update
               </Checkbox>
-              <Tooltip title="补丁模式,只会新增或修改配置,上面未包含的现有配置项不会被删除">
+              <Tooltip title="In patch mode, only configurations will be added or modified. Existing configuration items not included above will not be deleted.">
                 <QuestionCircleOutlined />
               </Tooltip>
             </span>
@@ -84,7 +84,7 @@ const JsonEditor: React.FC<JsonEditorProps> = (props) => {
                 props.onCancel();
               }}
             >
-              取消
+              Cancel
             </Button>
             <Button
               type="primary"
@@ -95,11 +95,11 @@ const JsonEditor: React.FC<JsonEditorProps> = (props) => {
                     props.onSaveSuccess();
                   }
                 } else {
-                  message.error('JSON 格式非法');
+                  message.error('JSON format is illegal');
                 }
               }}
             >
-              保存
+              Save
             </Button>
           </div>
         </div>

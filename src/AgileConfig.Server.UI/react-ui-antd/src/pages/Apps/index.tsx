@@ -134,7 +134,7 @@ const appList: React.FC = (props) => {
 
   const actionRef = useRef<ActionType>();
   const addFormRef = useRef<FormInstance>();
- 
+
   const intl = useIntl();
 
   const [createModalVisible, setCreateModalVisible] = useState<boolean>(false);
@@ -161,7 +161,7 @@ const appList: React.FC = (props) => {
         })
         setAppGroups(groups);
         setAppGroupsEnums(groupEnums);
-      } 
+      }
     })
   },[dataSource]);
 
@@ -225,7 +225,7 @@ const appList: React.FC = (props) => {
       copyable: true,
     },
     {
-      title: '应用组',
+      title: 'group',
       sorter: true,
       valueType: 'select',
       dataIndex: 'group',
@@ -252,7 +252,7 @@ const appList: React.FC = (props) => {
       sorter: true,
     },
     {
-      title: '管理员',
+      title: 'admin',
       dataIndex: 'appAdminName',
       hideInSearch: true,
     },
@@ -349,11 +349,11 @@ const appList: React.FC = (props) => {
               setUserAuthModalVisible(true);
               setCurrentRow(record);
             }}>
-            授权
+            Authorize
           </a>
         ,
         <AuthorizedEle key="3" appId={record.id}  judgeKey={functionKeys.App_Delete}>
-          <Button type="link" danger 
+          <Button type="link" danger
             onClick={() => {
               const msg = intl.formatMessage({
                 id:'pages.app.delete_msg'
@@ -381,7 +381,7 @@ const appList: React.FC = (props) => {
             }
           </Button>
         </AuthorizedEle>
-        
+
       ]
     }
   ];
@@ -395,7 +395,7 @@ const appList: React.FC = (props) => {
         search={{
           labelWidth: 'auto',
         }}
-        
+
         rowKey={row=>row.id}
         columns={columns}
         request={(params, sorter, filter) => {
@@ -412,14 +412,14 @@ const appList: React.FC = (props) => {
           return handleQuery({ tableGrouped, sortField, ascOrDesc, ...params })
         } }
         headerTitle = {
-          <Checkbox onChange={(e)=>{ 
+          <Checkbox onChange={(e)=>{
             setTableGrouped(e.target.checked);
             actionRef.current?.reload();
-          }}>分组聚合</Checkbox>
+          }}>Grouping aggregation</Checkbox>
         }
         toolBarRender={() => {
           return [
-            <AuthorizedEle key="0" judgeKey={functionKeys.App_Add} > 
+            <AuthorizedEle key="0" judgeKey={functionKeys.App_Add} >
                <Button key="button" icon={<PlusOutlined />} type="primary" onClick={() => { setCreateModalVisible(true) }}>
                  {
                    intl.formatMessage({
@@ -498,8 +498,8 @@ const appList: React.FC = (props) => {
           name="secret"
         />
         <ProFormSelect
-                placeholder="应用所属的组"
-                  label="应用组"
+                placeholder="The group the app belongs to"
+                  label="group"
                   name="group"
                   options={appGroups}
                   fieldProps={{
@@ -521,7 +521,7 @@ const appList: React.FC = (props) => {
                               }
                             }}
                           >
-                            <PlusOutlined /> 
+                            <PlusOutlined />
                           </a>
                         </div>
                       </div>
@@ -556,7 +556,7 @@ const appList: React.FC = (props) => {
                     })
                   }
                   name="inheritancedApps"
-                  mode="multiple" 
+                  mode="multiple"
                   request={async () => {
                     const result = await inheritancedApps('');
                     return result.data.map( (x: { name: string, id: string })=> {
@@ -575,7 +575,7 @@ const appList: React.FC = (props) => {
                   },
                 ]}
                   initialValue={getUserInfo().userid}
-                  label="管理员"
+                  label="admin"
                   name="appAdmin"
                   request={async () => {
                     const result = await adminUsers();
@@ -585,7 +585,7 @@ const appList: React.FC = (props) => {
                     });
                   }}
         ></ProFormSelect>
-        
+
         <ProFormSwitch label={
           intl.formatMessage({
             id: 'pages.app.form.enabled'
@@ -621,7 +621,7 @@ const appList: React.FC = (props) => {
           }/>
       }
       {
-        userAuthModalVisible && 
+        userAuthModalVisible &&
         <UserAuth
           value = {currentRow}
           userAuthModalVisible={userAuthModalVisible}

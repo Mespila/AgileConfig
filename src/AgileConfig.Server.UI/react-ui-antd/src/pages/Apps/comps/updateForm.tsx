@@ -90,8 +90,8 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
         name="secret"
       />
       <ProFormSelect
-        placeholder="应用所属的组"
-        label="应用组"
+        placeholder="Group to which the application belongs"
+        label="application group"
         name="group"
         options={appGroups}
         fieldProps={{
@@ -121,7 +121,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
         }}
       ></ProFormSelect>
       <ProFormSwitch
-        tooltip="公共应用可以被其他应用关联"
+        tooltip="Public apps can be linked to other apps"
         label={
           intl.formatMessage({
             id: 'pages.app.form.public'
@@ -141,7 +141,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
                 label={intl.formatMessage({
                   id: 'pages.app.form.connected'
                 })}
-                tooltip="关联后可以读取公共应用的配置项"
+                tooltip="After association, you can read the configuration items of public applications."
                 name="inheritancedApps"
                 mode="multiple"
                 request={async () => {
@@ -160,7 +160,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
             required: true,
           },
         ]}
-        label="管理员"
+        label="administrator"
         name="appAdmin"
         request={async () => {
           const result = await adminUsers();

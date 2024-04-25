@@ -25,14 +25,14 @@ const handleSave = async (
     hide();
     const success = result.success;
     if (success) {
-      message.success('保存成功！');
+      message.success('Saved successfully!');
     } else {
-      message.error(result.message ? result.message : '保存失败！');
+      message.error(result.message ? result.message : 'Save failed!');
     }
     return success;
   } catch (error) {
     hide();
-    message.error('保存失败！');
+    message.error('Save failed!');
     return false;
   }
 };
@@ -55,7 +55,7 @@ const TextEditor: React.FC<TextEditorProps> = (props) => {
   return (
     <Modal
       maskClosable={false}
-      title="按 TEXT 视图编辑"
+      title="Edit by TEXT view"
       okText="保存"
       width={800}
       visible={props.ModalVisible}
@@ -70,14 +70,14 @@ const TextEditor: React.FC<TextEditorProps> = (props) => {
               fontSize: '12px',
             }}
           >
-            严格按照 KEY=VALUE 格式编辑，每行一个配置
+            Edit strictly according to the KEY=VALUE format, one configuration per line
           </div>
           <div>
             <span style={{ marginRight: '12px' }}>
               <Checkbox onChange={onIsPatchChange} value={isPatch}>
-                补丁模式更新
+                Patch Mode
               </Checkbox>
-              <Tooltip title="补丁模式,只会新增或修改配置,上面未包含的现有配置项不会被删除">
+              <Tooltip title="In patch mode, only configurations will be added or modified. Existing configuration items not included above will not be deleted.">
                 <QuestionCircleOutlined />
               </Tooltip>
             </span>
@@ -87,7 +87,7 @@ const TextEditor: React.FC<TextEditorProps> = (props) => {
                 props.onCancel();
               }}
             >
-              取消
+              Cancel
             </Button>
             <Button
               type="primary"
@@ -98,7 +98,7 @@ const TextEditor: React.FC<TextEditorProps> = (props) => {
                 }
               }}
             >
-              保存
+              Save
             </Button>
           </div>
         </div>

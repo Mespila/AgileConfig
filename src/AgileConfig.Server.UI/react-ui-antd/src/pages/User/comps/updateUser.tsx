@@ -19,13 +19,13 @@ const UpdateForm : React.FC<UpdateUserProps> = (props)=>{
           return true;
         }
       }
-    
+
       return false;
     }
     return (
-    <ModalForm 
+    <ModalForm
     width="400px"
-    title="编辑用户"
+    title="Edit user"
     initialValues={props.value}
     visible={props.updateModalVisible}
     modalProps={
@@ -41,19 +41,19 @@ const UpdateForm : React.FC<UpdateUserProps> = (props)=>{
     >
     <ProFormText
           label= "id"
-          name="id" 
+          name="id"
           hidden={true}
           readonly={true}
         />
    <ProFormText
-          label= "用户名"
-          name="userName" 
+          label= "Username"
+          name="userName"
           readonly={true}
         />
- 
+
        <ProFormText
-          label= "团队"
-          name="team" 
+          label= "Team"
+          name="team"
         />
     <ProFormSelect
         rules={[
@@ -61,26 +61,26 @@ const UpdateForm : React.FC<UpdateUserProps> = (props)=>{
             required: true,
           },
         ]}
-        label="角色"
+        label="Role"
         name="userRoles"
-        mode="multiple" 
+        mode="multiple"
         options = {
           hasUserRole('SuperAdmin')?[
             {
               value: 1,
-              label: '管理员',
+              label: 'admin',
             },
             {
               value: 2,
-              label: '操作员',
+              label: 'operator',
             }
           ]:[{
             value: 2,
-            label: '操作员',
+            label: 'operator',
           }]
         }
       >
-        </ProFormSelect> 
+        </ProFormSelect>
     </ModalForm>
     );
 }

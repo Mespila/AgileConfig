@@ -116,7 +116,7 @@ const clients:React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: '环境',
+      title: 'environment',
       dataIndex: 'env',
       hideInSearch: true,
     },
@@ -147,7 +147,7 @@ const clients:React.FC = () => {
       dataIndex: 'lastRefreshTime',
       hideInSearch: true,
       valueType: 'dateTime',
-      tip: '客户端从服务器最后一次全量拉取配置的时间'
+      tip: 'The last time the client pulled all configurations from the server'
     },
     {
       title: intl.formatMessage({
@@ -198,14 +198,14 @@ const clients:React.FC = () => {
   ];
   return (
     <PageContainer header={{ title:intl.formatMessage({id:'pages.client.header.title'}) }}>
-      <ProTable     
+      <ProTable
       search={{
         labelWidth: 'auto',
       }}
-      actionRef={actionRef} 
+      actionRef={actionRef}
       options={
         false
-      }                                                                              
+      }
         rowKey="id"
         columns = {columns}
         request = { (params, sorter, filter) => queryClients(params) }

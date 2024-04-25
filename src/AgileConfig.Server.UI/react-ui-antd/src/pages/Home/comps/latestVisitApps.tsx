@@ -6,9 +6,9 @@ import { getVisitApps } from '@/utils/latestVisitApps';
 const LatestVisitApps: React.FC = ()=> {
     const [latestVisitApps, _] = useState<{appId:string,appName:string}[]>(getVisitApps());
     return(
-      <Card title="最近访问" hidden={latestVisitApps.length === 0}>
+      <Card title="recent visits" hidden={latestVisitApps.length === 0}>
       {
-        latestVisitApps.map(x=>  
+        latestVisitApps.map(x=>
           <Card.Grid style={{  width: '25%'}} key={x.appId}>
            <div style={{cursor:'pointer'}} onClick={
              ()=>{
@@ -22,7 +22,7 @@ const LatestVisitApps: React.FC = ()=> {
         )
       }
     </Card>
-  
+
     );
   }
 

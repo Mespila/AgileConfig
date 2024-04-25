@@ -62,11 +62,11 @@ const services: React.FC = () => {
 
   const columns: ProColumns[] = [
     {
-      title: '服务ID',
+      title: 'Service ID',
       dataIndex: 'serviceId',
     },
     {
-      title: '服务名',
+      title: 'Service Name',
       dataIndex: 'serviceName',
       sorter: true,
     },
@@ -76,69 +76,69 @@ const services: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: '端口',
+      title: 'Port',
       dataIndex: 'port',
       hideInSearch: true,
     },
     {
-      title: '元数据',
+      title: 'Metadata',
       dataIndex: 'metaData',
       hideInSearch: true,
     },
     {
-      title: '健康检测模式',
+      title: 'HC Mode',
       dataIndex: 'heartBeatMode',
       hideInSearch: true,
     },
     {
-      title: '检测 URL',
+      title: 'CheckUrl',
       dataIndex: 'checkUrl',
       hideInSearch: true,
       ellipsis: true,
     },
     {
-      title: '告警 URL',
+      title: 'AlarmUrl',
       dataIndex: 'alarmUrl',
       hideInSearch: true,
       ellipsis: true,
     },
     {
-      title: '注册时间',
+      title: 'RegisterTime',
       dataIndex: 'registerTime',
       hideInSearch: true,
       valueType: 'dateTime',
       sorter: true,
     },
     {
-      title: '最后响应时间',
+      title: 'Last HC',
       dataIndex: 'lastHeartBeat',
       hideInSearch: true,
       valueType: 'dateTime',
     },
     {
-      title: '状态',
+      title: 'Status',
       dataIndex: 'status',
       valueEnum: {
         0: {
-          text: '异常',
+          text: 'Default',
           status: 'Default'
         },
         1: {
-          text: '健康',
+          text: 'Success',
           status: 'Success'
         }
       },
       width: 120
     },
     {
-      title: '操作',
+      title: 'operating',
       valueType: 'option',
       render: (text, record, _, action) => [
         <a className={styles.linkDanger}
           onClick={
             ()=>{
               confirm({
-                content:`确定删除选中的服务吗？`,
+                content:`Are you sure you want to delete the selected service?`,
                 onOk: async ()=>{
                   const result = await handleDelSome(record)
                   if (result) {
@@ -149,7 +149,7 @@ const services: React.FC = () => {
             }
           }
         >
-          删除
+          Delete
         </a>
       ]
     }
@@ -182,14 +182,14 @@ const services: React.FC = () => {
         toolBarRender={()=>
           [
             <Button key="button" icon={<PlusOutlined />} type="primary" onClick={() => { setCreateModalVisible(true) }}>
-              注册
+              New Service
             </Button>
           ]
         }
       />
       <ModalForm
         formRef={addFormRef}
-        title='注册服务'
+        title='New Service'
         visible={createModalVisible}
         onVisibleChange={setCreateModalVisible}
         onFinish={
@@ -211,7 +211,7 @@ const services: React.FC = () => {
               required: true,
             },
           ]}
-          label='服务ID'
+          label='Service Id'
           name="serviceId"
         />
         <ProFormText
@@ -220,7 +220,7 @@ const services: React.FC = () => {
               required: true,
             },
           ]}
-          label='服务名'
+          label='Service Name'
           name="serviceName"
         />
         <ProFormSelect
@@ -232,13 +232,13 @@ const services: React.FC = () => {
                  tooltip={
                    ()=>{
                      return <div>
-                       none: 该模式不会进行任何健康检测服务会永远在线<br/>
-                       client: 客户端主动上报<br/>
-                       server: 服务端主动检测
+                       none: This mode does not perform any health checks and the service will always be online<br/>
+                       client: client proactively reports<br/>
+                       server: server side active detection
                      </div>
                    }
                  }
-                  label="健康检测模式"
+                  label="Health check mode"
                   name="heartBeatMode"
                   request={ async () => {
                     return [
@@ -271,7 +271,7 @@ const services: React.FC = () => {
             {
             },
           ]}
-          label='端口'
+          label='Port'
           name="port"
         />
         <ProFormDependency
@@ -287,7 +287,7 @@ const services: React.FC = () => {
                       required: true,
                     },
                   ]}
-                  label='检测 URL'
+                  label='Check URL'
                   name="checkUrl"
                 />: null
             }
@@ -305,7 +305,7 @@ const services: React.FC = () => {
                     {
                     },
                   ]}
-                  label='告警 URL'
+                  label='Alarm URL'
                   name="alarmUrl"
                 />
             }

@@ -74,7 +74,7 @@ const home: React.FC = () => {
     anyServerNode().then(data => {
       if (!data) {
         console.log('No nodes plz add one !');
-        let confirmMsg = `节点列表为空，是否添加当前节点【${window.location.origin}】到节点列表？`;
+        let confirmMsg = `The node list is empty. Do you want to add the current node [${window.location.origin}] to the node list?`;
         confirm({
           icon: <ExclamationCircleOutlined />,
           content: confirmMsg,
@@ -83,14 +83,14 @@ const home: React.FC = () => {
             console.log(` try add ${origin} to node list .`);
             const node: NodeItem = {
               address: origin,
-              remark: '控制台节点',
+              remark: 'CONSOLE NODE',
               status: 0
             };
             handleAdd(node);
           },
           onCancel() {
           },
-          okText: '马上添加'
+          okText: 'Add'
         })
       }
     });

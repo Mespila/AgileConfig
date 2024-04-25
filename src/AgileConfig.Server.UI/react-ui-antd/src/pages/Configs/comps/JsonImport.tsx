@@ -16,24 +16,24 @@ export type JsonImportFormProps = {
   };
   const handleSave = async ( items: JsonImportItem[], env: string) => {
     if (items.length === 0) {
-      message.warning('没有需要导入的配置项！');
+      message.warning('There are no configuration items to import!');
       return;
     }
 
-    const hide = message.loading('正在导入');
+    const hide = message.loading('Importing');
     try {
       const result = await addRangeConfig(items, env);
       hide();
       const success = result.success;
       if (success) {
-        message.success('导入成功');
+        message.success('Import successful');
       } else {
         message.error(result.message);
       }
       return success;
     } catch (error) {
       hide();
-      message.error('导入失败请重试！');
+      message.error('Import failed, please try again!');
       return false;
     }
   };
@@ -97,15 +97,15 @@ const JsonImport : React.FC<JsonImportFormProps> = (props)=>{
               }
             }
           } else if (info.file.status === 'error') {
-            message.error(`${info.file.name} 上传失败.`);
+            message.error(`${info.file.name} upload failed.`);
           }
         },
       };
     return (
-        <Modal 
+        <Modal
           maskClosable={false}
-          title={intl.formatMessage({id:'pages.configs.table.cols.action.pop.importfromjosnfile'})} 
-          width={1000} 
+          title={intl.formatMessage({id:'pages.configs.table.cols.action.pop.importfromjosnfile'})}
+          width={1000}
           visible={props.jsonImportModalVisible}
           onCancel={
             ()=>{
@@ -130,15 +130,15 @@ const JsonImport : React.FC<JsonImportFormProps> = (props)=>{
                 </Button>
               </Upload>
             </div>
-            <Table 
+            <Table
               rowKey="id"
               pagination={false}
-              dataSource={datasource} 
+              dataSource={datasource}
               columns={columns}
               scroll ={{
                 y: 500
               }}>
-              
+
             </Table>
         </Modal>
     );

@@ -147,15 +147,15 @@ const userList:React.FC = () => {
   const [currentRow, setCurrentRow] = useState<UserItem>();
   const columns: ProColumns<UserItem>[] = [
     {
-      title: '用户名',
+      title: 'Username',
       dataIndex: 'userName',
     },
     {
-      title: '团队',
+      title: 'Team',
       dataIndex: 'team',
     },
     {
-      title: '角色',
+      title: 'Role',
       dataIndex: 'userRoles',
       search: false,
       renderFormItem: (_, { defaultRender }) => {
@@ -165,7 +165,7 @@ const userList:React.FC = () => {
         <Space>
           {record.userRoleNames?.map((name:string) => (
             <Tag color={
-              name === '管理员'? 'gold':'blue'
+              name === 'admin'? 'gold':'blue'
             } key={name}>
               {name}
             </Tag>
@@ -191,7 +191,7 @@ const userList:React.FC = () => {
         </a>,
          <a key="1"
          onClick={ ()=> {
-          const msg = '确定重置用户' + `【${record.userName}】的密码为默认密码【123456】?`;
+          const msg = 'Are you sure to reset the user' + `[${record.userName}]'s password to the default password [123456]?`;
           confirm({
             icon: <ExclamationCircleOutlined />,
             content: msg,
@@ -212,7 +212,7 @@ const userList:React.FC = () => {
          </a>,
         <Button key="2" type="link" danger
           onClick={ ()=> {
-            const msg = '确定删除用户' + `【${record.userName}】?`;
+            const msg = 'Confirm to delete user' + `【${record.userName}】?`;
             confirm({
               icon: <ExclamationCircleOutlined />,
               content: msg,
@@ -236,7 +236,7 @@ const userList:React.FC = () => {
   ];
   return (
     <PageContainer>
-      <ProTable     
+      <ProTable
       options={
         false
       }
@@ -245,7 +245,7 @@ const userList:React.FC = () => {
         columns = {columns}
         request = { (params, sorter, filter) => queryUsers(params) }
         toolBarRender={() => [
-          (hasUserRole('SuperAdmin')||hasUserRole('Admin'))? 
+          (hasUserRole('SuperAdmin')||hasUserRole('Admin'))?
           <Button key="0" icon={<PlusOutlined />} type="primary"
           onClick={ ()=>{ handleModalVisible(true) } }
           >
@@ -260,7 +260,7 @@ const userList:React.FC = () => {
         ]}
       />
 
-    <ModalForm 
+    <ModalForm
         modalProps={
           {
             maskClosable: false
@@ -271,7 +271,7 @@ const userList:React.FC = () => {
           intl.formatMessage({
             id: 'pages.node.action.add'
           })
-        } 
+        }
         width="400px"
         visible={createModalVisible}
         onVisibleChange={handleModalVisible}
@@ -294,8 +294,8 @@ const userList:React.FC = () => {
               required: true,
             },
           ]}
-          label= "用户名"
-          name="userName" 
+          label= "Username"
+          name="userName"
         />
         <ProFormText.Password
           rules={[
@@ -303,12 +303,12 @@ const userList:React.FC = () => {
               required: true,
             },
           ]}
-          label= "密码"
-          name="password" 
+          label= "Password"
+          name="password"
         />
        <ProFormText
-          label= "团队"
-          name="team" 
+          label= "Team"
+          name="team"
         />
         <ProFormSelect
                 rules={[
@@ -316,25 +316,25 @@ const userList:React.FC = () => {
                     required: true,
                   },
                 ]}
-                  label="角色"
+                  label="Role"
                   name="userRoles"
-                  mode="multiple" 
+                  mode="multiple"
                   options = {hasUserRole('SuperAdmin')?[
                     {
                       value: 1,
-                      label: '管理员',
+                      label: 'Admin',
                     },
                     {
                       value: 2,
-                      label: '操作员',
+                      label: 'Operator'
                     }
                   ]:[
                   {
                     value: 2,
-                    label: '操作员',
+                    label: 'Operator',
                   }]}
                 >
-        </ProFormSelect> 
+        </ProFormSelect>
       </ModalForm>
 
       {

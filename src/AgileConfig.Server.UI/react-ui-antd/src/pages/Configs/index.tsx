@@ -27,20 +27,20 @@ const { TextArea } = Input;
 const { confirm } = Modal;
 
 const handlePublish = async (appId: string, ids:string[], log:string, env:string) => {
-  const hide = message.loading('正在发布');
+  const hide = message.loading('Publishing');
   try {
     const result = await publish(appId, ids, log, env);
     hide();
     const success = result.success;
     if (success) {
-      message.success('发布成功！');
+      message.success('Posted successfully！');
     } else {
-      message.error('发布失败！');
+      message.error('Publishing failed！');
     }
     return success;
   } catch (error) {
     hide();
-    message.error('发布失败！');
+    message.error('Publishing failed！');
     return false;
   }
 };
@@ -84,7 +84,7 @@ const handleDelSome = async (configs: ConfigListItem[], env: string):Promise<boo
   }
 };
 const handleCancelEditSome = async (configs: ConfigListItem[], env: string):Promise<boolean> => {
-  const hide = message.loading('正在撤销');
+  const hide = message.loading('Revoking');
   try {
     const result = await cancelSomeEdit(configs.map(x=>x.id), env);
     hide();
@@ -142,26 +142,26 @@ const handleEdit = async (config: ConfigListItem, env:string) => {
 
 
 const handleCancelEdit = async (id: string, env:string) => {
-  const hide = message.loading('正在撤销');
+  const hide = message.loading('Revoking');
   try {
     const result = await cancelEdit(id, env);
     hide();
     const success = result.success;
     if (success) {
-      message.success('撤销成功！');
+      message.success('Revoked successfully！');
     } else {
       message.error(result.message);
     }
     return success;
   } catch (error) {
     hide();
-    message.error('撤销失败！');
+    message.error('Undo failed！');
     return false;
   }
 }
 
 const handleExportJson = async (appId: string, env:string) => {
-  const hide = message.loading('正在导出');
+  const hide = message.loading('Exporting');
   try {
     const file = await exportJson(appId, env);
     hide();
@@ -220,24 +220,24 @@ const configs: React.FC = (props: any) => {
       console.log('WaitPublishStatus ', x);
       if (x.success) {
         setWaitPublishStatus(x.data);
-      }      
+      }
     })
   }, [tableData]);
 
   const publish = (appId: string) => {
     const rows = selectedRowsState.filter(x=>x.editStatus !== 10).map(x=>x.id);
     const isPublishAll = rows.length === 0;
-    const msg = isPublishAll ? '所有' : '已选择';
+    const msg = isPublishAll ? 'all' : 'chosen';
     _publishLog = '';
     confirm({
       content: <div>
         {
-          `确定发布当前【${msg}】的待发布配置项吗？`
+          `Are you sure to publish the configuration items to be released for the current [${msg}]?？`
         }
         <br />
         <br />
         <div>
-         <TextArea autoSize placeholder="请填写发布日志" maxLength={50} showCount={true}
+         <TextArea autoSize placeholder="Please fill in the release log" maxLength={50} showCount={true}
           onChange={(e)=>{
             _publishLog = e.target.value;
           }}
@@ -272,10 +272,10 @@ const configs: React.FC = (props: any) => {
   }
 
   const editStatusEnums = {
-    0: '新增',
-    1: '编辑',
-    2: '删除',
-    10: '已提交'
+    0: 'New',
+    1: 'Edited',
+    2: 'Deleted',
+    10: 'Submitted'
   }
   const editStatusColors = {
     0: 'blue',
@@ -284,7 +284,7 @@ const configs: React.FC = (props: any) => {
     10: ''
   }
   const columns: ProColumns<ConfigListItem>[] = [
- 
+
     {
       title: intl.formatMessage({id:'pages.configs.table.cols.g'}),
       dataIndex: 'group',
@@ -319,7 +319,7 @@ const configs: React.FC = (props: any) => {
       sorter: true,
     },
     {
-      title: '编辑状态',
+      title: 'EditStatus',
       dataIndex: 'editStatus',
       search: false,
       render: (_, record) => (
@@ -331,7 +331,7 @@ const configs: React.FC = (props: any) => {
       ),
     },
     {
-      title: '发布状态',
+      title: 'OnlineStatus',
       dataIndex: 'onlineStatus',
       valueEnum: {
         0: {
@@ -382,7 +382,7 @@ const configs: React.FC = (props: any) => {
         <AuthorizedEle key="3" judgeKey={functionKeys.Config_Delete} appId={record.appId}>
           <TableDropdown
               key="actionGroup"
-              onSelect={async (item) => 
+              onSelect={async (item) =>
                 {
                   if (item == 'history') {
                     setCurrentRow(record);
@@ -477,13 +477,13 @@ const configs: React.FC = (props: any) => {
         headerTitle= {
           <Space size="middle">
               <Badge count={waitPublishStatus.addCount} size="small" offset={[-5, 0]}>
-                <Tag color="blue" hidden={waitPublishStatus.addCount===0}>新增</Tag>
+                <Tag color="blue" hidden={waitPublishStatus.addCount===0}>New</Tag>
               </Badge>
               <Badge count={waitPublishStatus.editCount} size="small" offset={[-5, 0]}>
-                <Tag color="gold" hidden={waitPublishStatus.editCount===0}>编辑</Tag>
+                <Tag color="gold" hidden={waitPublishStatus.editCount===0}>Edit</Tag>
               </Badge>
               <Badge count={waitPublishStatus.deleteCount} size="small" offset={[-5, 0]}>
-                <Tag color="red" hidden={waitPublishStatus.deleteCount===0}>删除</Tag>
+                <Tag color="red" hidden={waitPublishStatus.deleteCount===0}>Delete</Tag>
               </Badge>
           </Space>
         }
@@ -500,10 +500,10 @@ const configs: React.FC = (props: any) => {
           ,
           <AuthorizedEle key="2" judgeKey={functionKeys.Config_Publish} appId={appId} >
             <Button key="button" icon={<VerticalAlignTopOutlined />} type="primary" className="success"
-                    hidden={(waitPublishStatus.addCount + waitPublishStatus.editCount + waitPublishStatus.deleteCount) === 0} 
+                    hidden={(waitPublishStatus.addCount + waitPublishStatus.editCount + waitPublishStatus.deleteCount) === 0}
                     onClick={()=>{publish(appId)}}>
                 {
-                  selectedRowsState.filter(x=>x.editStatus !== 10).length > 0 ? '发布选择项' : '发布全部'
+                  selectedRowsState.filter(x=>x.editStatus !== 10).length > 0 ? 'publish selections' : 'publish all'
                 }
             </Button>
           </AuthorizedEle>
@@ -516,7 +516,7 @@ const configs: React.FC = (props: any) => {
                       onClick={
                         ()=>{
                           confirm({
-                            content:`确定撤销选中配置项的编辑状态吗？`,
+                            content:`Are you sure you want to cancel the editing status of the selected configuration item?？`,
                             onOk: async ()=>{
                               const result = await handleCancelEditSome(selectedRowsState.filter(x=>x.editStatus !== 10), currentEnv)
                               if (result) {
@@ -530,12 +530,12 @@ const configs: React.FC = (props: any) => {
                         }
                       }
                     >
-                撤销编辑
+                Undo edit
               </Button>
               :
               <></>
             }
-            
+
           </AuthorizedEle>
         ,
         <AuthorizedEle key="6" judgeKey={functionKeys.Config_Edit} appId={appId} >
@@ -546,7 +546,7 @@ const configs: React.FC = (props: any) => {
                     onClick={
                       ()=>{
                         confirm({
-                          content:`确定删除选中的配置项吗？`,
+                          content:`Are you sure you want to delete the selected configuration item?？`,
                           onOk: async ()=>{
                             const result = await handleDelSome(selectedRowsState, currentEnv)
                             if (result) {
@@ -560,7 +560,7 @@ const configs: React.FC = (props: any) => {
                       }
                     }
                     >
-                删除
+                Delete
             </Button>:<></>
           }
         </AuthorizedEle>
@@ -569,7 +569,7 @@ const configs: React.FC = (props: any) => {
           <Button  onClick={()=>{
               setJsonEditorVisible(true);
             }}>
-              编辑 JSON
+              Edit JSON
             </Button>
           </AuthorizedEle>
           ,
@@ -577,28 +577,28 @@ const configs: React.FC = (props: any) => {
           <Button  onClick={()=>{
               setTextEditorVisible(true);
             }}>
-              编辑 TEXT
+              Edit TEXT
             </Button>
           </AuthorizedEle>
           ,
           <Dropdown overlay={
             <Menu >
               <Menu.Item hidden={!checkUserPermission(getFunctions(),functionKeys.Config_Publish,appId)} key="history" onClick={()=>{ setVersionHistoryFormModalVisible(true) }}>
-               历史版本
+               Historic version
               </Menu.Item>
               <Menu.Item hidden={!checkUserPermission(getFunctions(),functionKeys.Config_Add,appId)} key="syncEnv" onClick={()=>{ setEnvSyncModalVisible(true) }}>
-                环境同步
+                Environment Synchronization
               </Menu.Item>
               <Menu.Item hidden={!checkUserPermission(getFunctions(),functionKeys.Config_Add,appId)} key="import" onClick={()=>{ setjsonImportFormModalVisible(true) }}>
-                导入
+                Import
               </Menu.Item>
               <Menu.Item key="export" onClick={()=>{handleExportJson(appId, currentEnv)}}>
-                导出
+                Export
               </Menu.Item>
             </Menu>
           }>
           <Button>
-            更多 <DownOutlined />
+            More <DownOutlined />
           </Button>
         </Dropdown>
 
@@ -638,7 +638,7 @@ const configs: React.FC = (props: any) => {
           appName={appName}
           jsonImportModalVisible={jsonImportFormModalVisible}
           env={currentEnv}
-          > 
+          >
         </JsonImport>
       }
       {
@@ -661,13 +661,13 @@ const configs: React.FC = (props: any) => {
           env={currentEnv}
           appId={appId}
           appName={appName}
-          versionHistoryModalVisible ={versionHistoryFormModalVisible}> 
+          versionHistoryModalVisible ={versionHistoryFormModalVisible}>
         </VersionHistory>
       }
       {
         EnvSyncModalVisible&&
         <EnvSync currentEnv={currentEnv}
-                appId={appId} 
+                appId={appId}
                 ModalVisible={EnvSyncModalVisible}
                 onSaveSuccess={
                   ()=>{
@@ -798,8 +798,8 @@ const configs: React.FC = (props: any) => {
           } />
       }
       {
-        jsonEditorVisible && 
-        <JsonEditor 
+        jsonEditorVisible &&
+        <JsonEditor
         appId={appId}
         appName={appName}
         env={currentEnv}
@@ -821,8 +821,8 @@ const configs: React.FC = (props: any) => {
         </JsonEditor>
       }
       {
-        textEditorVisible && 
-        <TextEditor 
+        textEditorVisible &&
+        <TextEditor
         appId={appId}
         appName={appName}
         env={currentEnv}

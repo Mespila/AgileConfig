@@ -42,8 +42,8 @@ const UserAuth : React.FC<UserAuthProps> = (props)=>{
     },[props.value?.id]);
     return (
       userAppAuthState ?
-    <ModalForm 
-    title={props.value?.name + ' - 用户授权'}
+    <ModalForm
+    title={props.value?.name + ' - user authorization'}
     initialValues={userAppAuthState}
     visible={props.userAuthModalVisible}
     submitter = {
@@ -71,7 +71,7 @@ const UserAuth : React.FC<UserAuthProps> = (props)=>{
     />
     <ProFormSelect
                   mode="multiple"
-                  label="修改权"
+                  label="Update Permission"
                   name="editConfigPermissionUsers"
                   options={
                     users
@@ -89,10 +89,10 @@ const UserAuth : React.FC<UserAuthProps> = (props)=>{
                     }
                   }
         >
-    </ProFormSelect>    
+    </ProFormSelect>
     <ProFormSelect
                   mode="multiple"
-                  label="发布权"
+                  label="Publish Permission"
                   name="publishConfigPermissionUsers"
                   options={
                     users

@@ -8,20 +8,20 @@ import { getPublishHistory, rollback } from "../service";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 const handleRollback = async (timelineId: string, env: string) => {
-  const hide = message.loading('正在回滚');
+  const hide = message.loading('Rolling back');
   try {
     const result = await rollback(timelineId, env);
     hide();
     const success = result.success;
     if (success) {
-      message.success('回滚成功！');
+      message.success('回ROLL SUCCESSFULLY！');
     } else {
       message.error(result.message);
     }
     return success;
   } catch (error) {
     hide();
-    message.error('回滚失败！');
+    message.error('回Roll failed！');
     return false;
   }
 };
@@ -38,10 +38,10 @@ const { confirm } = Modal;
 const VersionHistory : React.FC<VersionHistoryFormProps> = (props)=>{
   const intl = useIntl();
   const editStatusEnums = {
-    0: '新增',
-    1: '编辑',
-    2: '删除',
-    10: '已提交'
+    0: 'New',
+    1: 'Edit',
+    2: 'Delete',
+    10: 'Submitted'
   }
   const editStatusColors = {
     0: 'blue',
@@ -54,7 +54,7 @@ const VersionHistory : React.FC<VersionHistoryFormProps> = (props)=>{
       getPublishHistory(props.appId, props.env).then(resp => {
         if (resp.success) {
           setDatasource(resp.data);
-        }   
+        }
       })
     }, []);
     const columns = [
@@ -77,7 +77,7 @@ const VersionHistory : React.FC<VersionHistoryFormProps> = (props)=>{
         },
         {
             width: 150,
-            title: '编辑状态',
+            title: 'EditStatus',
             dataIndex: 'editStatus',
             render: (_:any, record:any) => (
               <Tag color={editStatusColors[record.editStatus]}>
@@ -89,11 +89,11 @@ const VersionHistory : React.FC<VersionHistoryFormProps> = (props)=>{
           },
       ];
     return (
-        <Modal 
+        <Modal
           footer={false}
-          cancelText="关闭"
-          title="历史版本"
-          width={1000} 
+          cancelText="close"
+          title="HistoricVersion"
+          width={1000}
           visible={props.versionHistoryModalVisible}
           onCancel={
             ()=>{
@@ -104,11 +104,11 @@ const VersionHistory : React.FC<VersionHistoryFormProps> = (props)=>{
             <div className={styles.historyContainer}>
             {
               datasource.length === 0 ?
-              '暂无数据'
+              'NO DATA'
               :
-              datasource.map( (e, i)=> 
+              datasource.map( (e, i)=>
                 <div key={e.key} className={styles.historyVersionTable}>
-                  <Table 
+                  <Table
                     key={e.key}
                     rowKey="id"
                     size="small"
@@ -130,29 +130,29 @@ const VersionHistory : React.FC<VersionHistoryFormProps> = (props)=>{
                       }
                     }
                     pagination={false}
-                    dataSource={e.list} 
+                    dataSource={e.list}
                     columns={columns}
                     >
                   </Table>
                   <div>
                   <Row justify="end">
                     <Col span={2} >
-                      <Button type="primary" style={{marginTop:20}} hidden={i===0} 
+                      <Button type="primary" style={{marginTop:20}} hidden={i===0}
                         onClick={()=>{
                           confirm({
                             onOk:async ()=>{
                               const result = await handleRollback(e.timelineNode.id, props.env);
                               if (result) {
                                 props.onCancel(true)
-                              }  
+                              }
                             },
                             icon: <ExclamationCircleOutlined />,
                             content: <div>
-                              {`确定回滚至【${moment(e.timelineNode.publishTime).format('YYYY-MM-DD HH:mm:ss')}】时刻的发布版本吗？`}
+                              {`Confirm rollback to【${moment(e.timelineNode.publishTime).format('YYYY-MM-DD HH:mm:ss')}】release version of time?？`}
                               <br></br>
                               <br></br>
                               <div>
-                                注意：本操作会清空当前所有待发布的配置项
+                                Note: This operation will clear all current configuration items to be released.
                               </div>
                             </div>
                           });
@@ -162,10 +162,10 @@ const VersionHistory : React.FC<VersionHistoryFormProps> = (props)=>{
                       </Button >
                     </Col>
                   </Row>
-                   
+
                   </div>
                 </div>
-                
+
               )
             }
             </div>
