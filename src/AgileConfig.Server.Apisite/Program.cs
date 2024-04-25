@@ -13,7 +13,7 @@ namespace AgileConfig.Server.Apisite
     {
         //public static IRemoteServerNodeProxy RemoteServerNodeProxy { get; private set; }
 
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var basePath = AppDomain.CurrentDomain.BaseDirectory;
             Console.WriteLine("current dir path: " + basePath);
@@ -31,7 +31,7 @@ namespace AgileConfig.Server.Apisite
             var host = CreateWebHostBuilder(args)
                 .Build();
 
-            host.Run();
+            await host.RunAsync();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)

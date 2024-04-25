@@ -31,10 +31,10 @@ namespace AgileConfig.Server.Service
 
         private static ConcurrentDictionary<string, ClientInfos> _serverNodeClientReports =
             new ConcurrentDictionary<string, ClientInfos>();
-        
+
 
         public RemoteServerNodeProxy(
-            ILoggerFactory loggerFactory, 
+            ILoggerFactory loggerFactory,
             IRestClient restClient,
             EventRegisterTransient<IServerNodeService> serverNodeService,
             EventRegisterTransient<ISysLogService> sysLogService)
@@ -65,10 +65,12 @@ namespace AgileConfig.Server.Service
                 {
                     module = "注册中心";
                 }
+
                 if (action.Module == "c")
                 {
                     module = "配置中心";
                 }
+
                 await service.AddSysLogAsync(new SysLog
                 {
                     LogTime = DateTime.Now,
@@ -101,10 +103,12 @@ namespace AgileConfig.Server.Service
                 {
                     module = "注册中心";
                 }
+
                 if (action.Module == "c")
                 {
                     module = "配置中心";
                 }
+
                 await service.AddSysLogAsync(new SysLog
                 {
                     LogTime = DateTime.Now,
@@ -152,10 +156,12 @@ namespace AgileConfig.Server.Service
                 {
                     module = "注册中心";
                 }
+
                 if (action.Module == "c")
                 {
                     module = "配置中心";
                 }
+
                 await service.AddSysLogAsync(new SysLog
                 {
                     LogTime = DateTime.Now,
@@ -213,10 +219,10 @@ namespace AgileConfig.Server.Service
             var node = await service.GetAsync(address);
             try
             {
+                _logger.LogInformation("Try test node {0} echo .", node.Id);
                 var url = node.Id + "/home/echo";
-
+                _logger.LogInformation("Test node {0} echo url : {1}", node.Id, url);
                 using var resp = await _restClient.GetAsync(url);
-
                 if (resp.StatusCode == System.Net.HttpStatusCode.OK && (await resp.Content.ReadAsStringAsync()) == "ok")
                 {
                     node.LastEchoTime = DateTime.Now;
@@ -232,7 +238,7 @@ namespace AgileConfig.Server.Service
                 node.Status = NodeStatus.Offline;
                 _logger.LogInformation(e, "Try test node {0} echo , but fail .", node.Id);
             }
-            
+
             if (node.Status == NodeStatus.Offline)
             {
                 DateTime? time = node.LastEchoTime;
@@ -240,6 +246,7 @@ namespace AgileConfig.Server.Service
                 {
                     time = node.CreateTime;
                 }
+
                 if (time.HasValue && (DateTime.Now - time.Value).TotalMinutes >= 30)
                 {
                     // 超过 30 分钟没有回应，则移除节点
@@ -247,7 +254,7 @@ namespace AgileConfig.Server.Service
                     return;
                 }
             }
-            
+
             await service.UpdateAsync(node);
         }
 
@@ -282,7 +289,7 @@ namespace AgileConfig.Server.Service
                 _logger.LogError(e, "Try to clear node {0}'s config cache , but fail .", address);
             }
         }
-        
+
         public async Task ClearServiceInfoCache(string address)
         {
             try
@@ -290,7 +297,6 @@ namespace AgileConfig.Server.Service
                 var url = (address + "/RemoteOP/ClearServiceInfoCache");
 
                 await _restClient.PostAsync(url, null);
-
             }
             catch (Exception e)
             {
